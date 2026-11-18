@@ -1,0 +1,3 @@
+# Eval-set hashes (lab9.evalset.sha12) are taken over raw bytes: keep LF on every OS so a
+# baseline built on Windows matches the CI run on Linux.
+*.jsonl text eol=lf
