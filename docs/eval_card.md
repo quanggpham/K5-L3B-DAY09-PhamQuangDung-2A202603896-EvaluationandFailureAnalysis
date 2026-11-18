@@ -2,8 +2,8 @@
 
 Card này đi kèm mỗi báo cáo và được dùng lại ở Day 10. Mọi con số lấy từ `src/reports/*.json` hoặc output lệnh ghi kèm; chạy lại các lệnh dưới đây từ thư mục `src/` (`.venv/Scripts/python -m ...`) sẽ ra đúng các số này (MockLLM, tất định).
 
-- **Run ID / eval set SHA:** v1: baseline `E-swarm-20261118-4cf8`, eval set sha `4cf824a66182` · v2: baseline `E-swarm-20261118-2d93`, eval set sha `2d935496eed6`
-- **Phiên bản:** code (commit) `c8f9b33` (grader `5e908a7`, gate `fcdd585`) · eval set v1 (sha `4cf824a66182`) / v2 (sha `2d935496eed6`) · metric_spec `1.0` (v1) / `2.0` (v2) · grader (commit) `5e908a7` · seeds 11/22/33/44/55
+- **Run ID / eval set SHA:** v1: baseline `E-swarm-20261118-2d10`, eval set sha `2d101226606f` · v2: baseline `E-swarm-20261118-46d3`, eval set sha `46d3650d0eed`
+- **Phiên bản:** code (commit) `c8f9b33` (grader `5e908a7`, gate `fcdd585`) · eval set v1 (sha `2d101226606f`) / v2 (sha `46d3650d0eed`) · metric_spec `1.0` (v1) / `2.0` (v2) · grader (commit) `5e908a7` · seeds 11/22/33/44/55
 - **Cái được đánh giá:** agent hoàn tiền LogiX-VN (shape `swarm`, `lab8/shapes/swarm_reference.py`, không sửa `lab8/`). Đầu vào là claim + ticket + DB; đầu ra là trace, reply và dòng ledger do host ghi. Đánh giá theo trajectory (trace + ledger), không chỉ reply.
 - **Eval set:** v1, 14 item × 5 seed = 70 trial, nguồn `lab8_public` (matrix T01–T14), mỗi item gắn `failure_modes` (xem `docs/failure_taxonomy.md`). Nhãn đúng nằm riêng ở `data/eval/labels_v1.json`, không inline trong item. Item E-002 có `provenance.from_trace = swarm C-002@55`. Kiểm tra: `python -m lab9.evalset --check`.
 - **Metric & ngưỡng** (trích `config/metric_spec.yaml`, version 1.0):
@@ -23,7 +23,7 @@ Card này đi kèm mỗi báo cáo và được dùng lại ở Day 10. Mọi co
 
 - **Kết quả baseline vs PR** (v1, spec `metric_spec.yaml`):
 
-| Metric | baseline `swarm` (`E-swarm-20261118-4cf8`) | `fixed` (`E-fixed-20261118-4cf8`) | `seeded_regression` (`E-seeded_regression-20261118-4cf8`) |
+| Metric | baseline `swarm` (`E-swarm-20261118-2d10`) | `fixed` (`E-fixed-20261118-2d10`) | `seeded_regression` (`E-seeded_regression-20261118-2d10`) |
 |---|---|---|---|
 | approval_bypass | 0 | 0 | 0 |
 | secret_leak | 0 | 0 | 0 |
@@ -47,7 +47,7 @@ Card này đi kèm mỗi báo cáo và được dùng lại ở Day 10. Mọi co
 
 # Mục v2 (Advanced / Expert)
 
-Spec: `config/metric_spec_v2.yaml` (2.0); baseline `reports/baseline_v2.json`, run `E-swarm-20261118-2d93`, eval set sha `2d935496eed6`, 28 item × 5 seed = 140 trial, `evaluator_failures` rỗng. Gate v2 dùng `--spec config/metric_spec_v2.yaml`.
+Spec: `config/metric_spec_v2.yaml` (2.0); baseline `reports/baseline_v2.json`, run `E-swarm-20261118-46d3`, eval set sha `46d3650d0eed`, 28 item × 5 seed = 140 trial, `evaluator_failures` rỗng. Gate v2 dùng `--spec config/metric_spec_v2.yaml`.
 
 ## Eval set v2
 - 28 item = 14 item v1 + 14 item adversarial (E-101…E-114, nguồn `instructor_adversarial`, claim và approval bổ sung trong `data/eval/adversarial_v2.json`, chỉ nạp vào bộ nhớ lúc chạy). Nhãn riêng ở `labels_v2.json`; mỗi item adversarial có `checked_by: fixed_shape_replay` (nhãn đã được replay bằng shape `fixed`). Sinh lại: `python -m lab9.evalset --v2 --build`, kiểm tra: `python -m lab9.evalset --v2 --check`.

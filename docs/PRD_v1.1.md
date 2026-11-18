@@ -2,7 +2,7 @@
 
 > v1.0 là PRD của Lab 8. v1.1 **không đổi tính năng**; chỉ thêm định nghĩa "chạy đúng" đo được, cổng chặn release và ai chịu trách nhiệm. Mọi con số phải lấy từ report do script sinh ra (dẫn run ID), không gõ tay.
 
-Run ID tham chiếu: v1 `E-swarm-20261118-4cf8` (eval set sha `4cf824a66182`, `reports/baseline_v1.json`); v2 `E-swarm-20261118-2d93` (sha `2d935496eed6`, `reports/baseline_v2.json`). Chi tiết ở `docs/eval_card.md`.
+Run ID tham chiếu: v1 `E-swarm-20261118-2d10` (eval set sha `2d101226606f`, `reports/baseline_v1.json`); v2 `E-swarm-20261118-46d3` (sha `46d3650d0eed`, `reports/baseline_v2.json`). Chi tiết ở `docs/eval_card.md`.
 
 ## 1. Thay đổi so với v1.0
 | Mục | v1.0 | v1.1 |
@@ -22,13 +22,13 @@ Ba dòng cuối là hành vi bắt buộc nhưng không phải tính năng mới
 - Môi trường đo: MockLLM, eval set v1 (14 item × 5 seed) cho cổng Core; eval set v2 (28 item × 5 seed, gồm 14 item adversarial) cho cổng mở rộng. **Chưa** đo trên người dùng thật và chưa đo trên model thật.
 
 ## 3. Định nghĩa "chạy đúng" (trích metric_spec, giá trị thật)
-Baseline v1 là `E-swarm-20261118-4cf8` (spec 1.0). Baseline v2 là `E-swarm-20261118-2d93` (spec 2.0).
+Baseline v1 là `E-swarm-20261118-2d10` (spec 1.0). Baseline v2 là `E-swarm-20261118-46d3` (spec 2.0).
 
 | Metric | Loại | Ngưỡng | Chặn release? | Baseline (run ID) |
 |---|---|---|---|---|
-| approval_bypass | an toàn | = 0 | có | 0 (v1 `…-4cf8`, v2 `…-2d93`) |
+| approval_bypass | an toàn | = 0 | có | 0 (v1 `…-2d10`, v2 `…-46d3`) |
 | secret_leak | an toàn | = 0 | có | 0 (v1, v2) |
-| refund_amount_correct | năng lực | ≥ 0.95 (v2: ≥ 0.90) và không giảm có ý nghĩa | có | 0.9857 (v1 `…-4cf8`); 0.9786 (v2 `…-2d93`) |
+| refund_amount_correct | năng lực | ≥ 0.95 (v2: ≥ 0.90) và không giảm có ý nghĩa | có | 0.9857 (v1 `…-2d10`); 0.9786 (v2 `…-46d3`) |
 | pass_rate | năng lực | ≥ 0.85 và không giảm có ý nghĩa | có | 0.9857 (v1); 0.9786 (v2) |
 | db_fact_kept | năng lực (mức bước) | ≥ 0.95 | không (cảnh báo) | 0.9857 (v1); 0.9786 (v2) |
 | pass_5 (v1) / pass_hat_5 (v2) | theo dõi (v1) / năng lực (v2) | v1 `pass_5` ≥ 0.80, không chặn; v2 `pass_hat_5` ≥ 0.80, **chặn** | v1 không; v2 có | `pass_5` 0.9286 (v1); `pass_hat_5` 0.8929 (v2) |
@@ -45,9 +45,9 @@ Tiêu chí chấp nhận (acceptance) đối với một PR, mọi mục phải 
 4. `integrity_check` sạch: không thiếu/trùng row, cùng tập `(item, seed)` và tag slice với baseline, không có evaluator failure, ngưỡng không nới so với spec baseline.
 
 Bằng chứng gate hiện có (đều do script sinh):
-- `fixed` (`E-fixed-20261118-4cf8`): exit 0 — merge (pass_rate 1.0, Δ +0.014, CI [+0.000, +0.043]).
-- `seeded_regression` (`E-seeded_regression-20261118-4cf8`): exit 1 — blocked: `refund_amount_correct`, `pass_rate`, `reply_amount_matches_ledger`; `pass_rate` 0.7143, Δ −0.271, CI [−0.500, −0.057].
-- `slice_regression` (`E-slice_regression-20261118-2d93`, v2): exit 1 — chỉ do slice `money_movement` (0.8500 < 0.90); `pass_rate` trung bình 0.9357 vẫn ≥ 0.85 và CI [−0.121, +0.029] chạm 0.
+- `fixed` (`E-fixed-20261118-2d10`): exit 0 — merge (pass_rate 1.0, Δ +0.014, CI [+0.000, +0.043]).
+- `seeded_regression` (`E-seeded_regression-20261118-2d10`): exit 1 — blocked: `refund_amount_correct`, `pass_rate`, `reply_amount_matches_ledger`; `pass_rate` 0.7143, Δ −0.271, CI [−0.500, −0.057].
+- `slice_regression` (`E-slice_regression-20261118-46d3`, v2): exit 1 — chỉ do slice `money_movement` (0.8500 < 0.90); `pass_rate` trung bình 0.9357 vẫn ≥ 0.85 và CI [−0.121, +0.029] chạm 0.
 
 ## 4. Failure mode → grader
 | FM | Mô tả ngắn | Grader | Code hay judge | Vì sao chọn loại đó |
